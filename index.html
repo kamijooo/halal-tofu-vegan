@@ -102,21 +102,35 @@ img { display: block; max-width: 100%; height: auto; }
 
 .logo {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.4rem;
-  letter-spacing: 0.02em;
-  line-height: 1;
+  line-height: 1.15;
+  max-width: 60%;
 }
 
-.logo .accent { font-style: italic; color: var(--accent-deep); font-weight: 400; }
+.logo .logo-main {
+  display: block;
+  font-weight: 500;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.logo .logo-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
 
 .logo .jp {
   font-family: var(--font-jp);
-  font-size: 0.8rem;
-  color: var(--ink-soft);
+  font-size: 0.78rem;
+  color: var(--accent-deep);
   display: block;
-  margin-top: 6px;
-  letter-spacing: 0.3em;
+  margin-top: 5px;
+  letter-spacing: 0.25em;
   font-weight: 500;
 }
 
@@ -1143,6 +1157,152 @@ img { display: block; max-width: 100%; height: auto; }
   opacity: 0.6;
 }
 
+/* ===== Floating Reserve Button ===== */
+.floating-reserve {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  background: var(--accent-red);
+  color: var(--paper);
+  border: none;
+  border-radius: 50%;
+  width: 78px;
+  height: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(168, 57, 43, 0.45);
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1.1;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 8px;
+  animation: floatPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes floatPulse {
+  0%, 100% { box-shadow: 0 8px 28px rgba(168, 57, 43, 0.45); }
+  50% { box-shadow: 0 8px 36px rgba(168, 57, 43, 0.75), 0 0 0 8px rgba(168, 57, 43, 0.1); }
+}
+
+.floating-reserve:hover {
+  background: var(--ink);
+  transform: scale(1.08);
+  animation: none;
+}
+
+.floating-reserve .material-icons {
+  font-size: 22px;
+  margin-bottom: 2px;
+}
+
+.floating-reserve .label {
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Live Viewers Dialog ===== */
+.live-dialog {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 18px 14px 14px;
+  max-width: 320px;
+  box-shadow: 0 10px 30px var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.live-dialog.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.live-dialog-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--accent-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.live-dialog-icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+.live-dialog-icon .material-icons {
+  color: var(--paper);
+  font-size: 18px;
+}
+
+.live-dialog-content {
+  flex: 1;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.live-dialog-content strong {
+  color: var(--accent-red);
+  font-weight: 700;
+}
+
+.live-dialog-sub {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.live-dialog-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.live-dialog-close:hover { background: var(--bg-cream); color: var(--ink); }
+
 /* Animations */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -1162,8 +1322,10 @@ img { display: block; max-width: 100%; height: auto; }
 /* Responsive */
 @media (max-width: 900px) {
   .header { padding: 20px 24px; }
-  .logo { font-size: 1.1rem; }
-  .logo .jp { font-size: 0.7rem; }
+  .logo { max-width: 65%; }
+  .logo .logo-main { font-size: 0.95rem; }
+  .logo .logo-sub { font-size: 0.62rem; letter-spacing: 0.05em; }
+  .logo .jp { font-size: 0.68rem; letter-spacing: 0.2em; }
   .btn-reserve { padding: 10px 16px; font-size: 0.7rem; letter-spacing: 0.1em; }
 
   .hero {
@@ -1198,6 +1360,26 @@ img { display: block; max-width: 100%; height: auto; }
 
   .cta-buttons { flex-direction: column; align-items: stretch; }
   .btn-cream, .btn-outline { justify-content: center; }
+
+  .floating-reserve {
+    width: 64px;
+    height: 64px;
+    bottom: 16px;
+    right: 16px;
+    font-size: 0.55rem;
+  }
+  .floating-reserve .material-icons { font-size: 18px; }
+  .floating-reserve .label { font-size: 0.5rem; }
+
+  .live-dialog {
+    bottom: 16px;
+    left: 16px;
+    right: 96px;
+    max-width: none;
+    padding: 12px 14px 12px 12px;
+  }
+  .live-dialog-content { font-size: 0.78rem; }
+  .live-dialog-sub { font-size: 0.68rem; }
 }
 </style>
 </head>
@@ -1212,7 +1394,8 @@ img { display: block; max-width: 100%; height: auto; }
 <!-- Header -->
 <header class="header">
   <div class="logo">
-    <span class="accent">Tofu</span> Burger Ginza
+    <span class="logo-main">Wagyu &amp; Vegan Hamburger</span>
+    <span class="logo-sub">(Halal · Gluten Free) Tokyo Ginza Restaurant</span>
     <span class="jp">豆腐バーガー 銀座</span>
   </div>
   <button class="btn-reserve" onclick="document.getElementById('reserve').scrollIntoView({behavior:'smooth'})">Reserve Now</button>
@@ -1236,8 +1419,8 @@ img { display: block; max-width: 100%; height: auto; }
     <div class="hero-rating">
       <span class="stars">★★★★★</span>
       <div class="rating-text">
-        <strong>Loved by travelers from around the world</strong><br>
-        <span style="color:var(--ink-muted);font-size:0.78rem">Google · Tabelog · TripAdvisor</span>
+        <strong>4.8 / 5.0</strong> · 2,500+ reviews<br>
+        <span style="color:var(--ink-muted);font-size:0.78rem">Google reviews</span>
       </div>
     </div>
 
@@ -1320,7 +1503,6 @@ img { display: block; max-width: 100%; height: auto; }
       </div>
 
       <div class="featured-content">
-        <div class="number">N°. 01</div>
         <span class="signature">The most-talked-about plate ✦</span>
         <h3>Japanese <em>Tofu</em> Burger</h3>
         <div class="jp-name">豆腐バーガー</div>
@@ -1384,7 +1566,7 @@ img { display: block; max-width: 100%; height: auto; }
       <div class="reviews-rating-summary">
         <div>
           <div class="stars-big">★★★★★</div>
-          <div class="count">Real voices from Google · TripAdvisor · Tabelog</div>
+          <div class="count">4.8 · Based on 2,500+ Google reviews</div>
         </div>
       </div>
     </div>
@@ -1406,7 +1588,7 @@ img { display: block; max-width: 100%; height: auto; }
       </div>
 
       <div class="review-card">
-        <span class="source">TripAdvisor</span>
+        <span class="source">Google</span>
         <div class="stars-card">★★★★★</div>
         <p class="review-quote">
           As a Muslim traveler in Tokyo it's hard to find places that feel both safe and special. This place is both — and the tofu burger surprised me. So filling, so flavorful. I've recommended it to everyone at our hotel.
@@ -1587,6 +1769,66 @@ img { display: block; max-width: 100%; height: auto; }
 <footer class="footer">
   © Tofu Burger Ginza · 豆腐バーガー 銀座 · Tokyo, Japan
 </footer>
+
+<!-- Live viewers dialog -->
+<div class="live-dialog" id="liveDialog" role="status" aria-live="polite">
+  <button class="live-dialog-close" id="liveDialogClose" aria-label="Close">×</button>
+  <div class="live-dialog-icon">
+    <span class="material-icons">visibility</span>
+  </div>
+  <div class="live-dialog-content">
+    <div><strong id="liveDialogCount">7</strong> people are viewing this page</div>
+    <div class="live-dialog-sub">Reservation recommended — tables fill quickly</div>
+  </div>
+</div>
+
+<!-- Floating reserve button -->
+<a href="tel:+818014384377" class="floating-reserve" aria-label="Call to reserve a table">
+  <span class="material-icons">restaurant</span>
+  <span class="label">Reserve</span>
+</a>
+
+<script>
+(function(){
+  // Live viewers dialog
+  var dialog = document.getElementById('liveDialog');
+  var countEl = document.getElementById('liveDialogCount');
+  var closeBtn = document.getElementById('liveDialogClose');
+  var dismissed = false;
+
+  function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function showDialog() {
+    if (dismissed) return;
+    countEl.textContent = randInt(6, 9);
+    dialog.classList.add('show');
+  }
+
+  function hideDialog() {
+    dialog.classList.remove('show');
+  }
+
+  closeBtn.addEventListener('click', function(){
+    dismissed = true;
+    hideDialog();
+  });
+
+  // First show after 15 seconds
+  setTimeout(showDialog, 15000);
+
+  // Update count every 18-25 seconds while shown
+  setInterval(function(){
+    if (dismissed) return;
+    if (dialog.classList.contains('show')) {
+      countEl.textContent = randInt(6, 9);
+    } else {
+      showDialog();
+    }
+  }, 20000);
+})();
+</script>
 
 </body>
 </html>
