@@ -1157,18 +1157,63 @@ img { display: block; max-width: 100%; height: auto; }
   opacity: 0.6;
 }
 
-/* ===== Floating Reserve Button ===== */
-.floating-reserve {
+/* ===== Floating Reserve Button + Live Viewers ===== */
+.floating-wrap {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.floating-viewers {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 7px 14px 7px 12px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px var(--shadow);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.floating-viewers.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.floating-viewers strong {
+  color: var(--accent-red);
+  font-weight: 700;
+}
+
+.floating-viewers .live-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-red);
+  margin-right: 2px;
+}
+
+.floating-reserve {
   background: var(--accent-red);
   color: var(--paper);
   border: none;
   border-radius: 50%;
-  width: 78px;
-  height: 78px;
+  width: 84px;
+  height: 84px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1176,12 +1221,12 @@ img { display: block; max-width: 100%; height: auto; }
   cursor: pointer;
   box-shadow: 0 8px 28px rgba(168, 57, 43, 0.45);
   font-family: var(--font-body);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   text-decoration: none;
-  line-height: 1.1;
+  line-height: 1.15;
   transition: all 0.3s ease;
   text-align: center;
   padding: 8px;
@@ -1201,107 +1246,13 @@ img { display: block; max-width: 100%; height: auto; }
 
 .floating-reserve .material-icons {
   font-size: 22px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .floating-reserve .label {
-  font-size: 0.58rem;
-  letter-spacing: 0.05em;
+  font-size: 0.56rem;
+  letter-spacing: 0.04em;
 }
-
-/* ===== Live Viewers Dialog ===== */
-.live-dialog {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 99;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 14px 18px 14px 14px;
-  max-width: 320px;
-  box-shadow: 0 10px 30px var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-body);
-  transform: translateY(120%);
-  opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-  pointer-events: none;
-}
-
-.live-dialog.show {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.live-dialog-icon {
-  width: 38px;
-  height: 38px;
-  background: var(--accent-red);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.live-dialog-icon::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  opacity: 0.3;
-  animation: pulse 2s ease-in-out infinite;
-  z-index: -1;
-}
-
-.live-dialog-icon .material-icons {
-  color: var(--paper);
-  font-size: 18px;
-}
-
-.live-dialog-content {
-  flex: 1;
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: var(--ink);
-}
-
-.live-dialog-content strong {
-  color: var(--accent-red);
-  font-weight: 700;
-}
-
-.live-dialog-sub {
-  font-size: 0.72rem;
-  color: var(--ink-muted);
-  margin-top: 2px;
-}
-
-.live-dialog-close {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 22px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  color: var(--ink-muted);
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 1;
-}
-
-.live-dialog-close:hover { background: var(--bg-cream); color: var(--ink); }
 
 /* Animations */
 @keyframes fadeUp {
@@ -1361,25 +1312,23 @@ img { display: block; max-width: 100%; height: auto; }
   .cta-buttons { flex-direction: column; align-items: stretch; }
   .btn-cream, .btn-outline { justify-content: center; }
 
-  .floating-reserve {
-    width: 64px;
-    height: 64px;
+  .floating-wrap {
     bottom: 16px;
     right: 16px;
+    gap: 6px;
+  }
+  .floating-reserve {
+    width: 70px;
+    height: 70px;
     font-size: 0.55rem;
   }
   .floating-reserve .material-icons { font-size: 18px; }
-  .floating-reserve .label { font-size: 0.5rem; }
+  .floating-reserve .label { font-size: 0.52rem; }
 
-  .live-dialog {
-    bottom: 16px;
-    left: 16px;
-    right: 96px;
-    max-width: none;
-    padding: 12px 14px 12px 12px;
+  .floating-viewers {
+    font-size: 0.66rem;
+    padding: 6px 12px 6px 10px;
   }
-  .live-dialog-content { font-size: 0.78rem; }
-  .live-dialog-sub { font-size: 0.68rem; }
 }
 </style>
 </head>
@@ -1453,37 +1402,6 @@ img { display: block; max-width: 100%; height: auto; }
   </div>
 </section>
 
-<!-- Story -->
-<section class="story">
-  <div class="story-inner">
-    <span class="section-label">Our Story</span>
-    <span class="section-label-jp">私たちの物語</span>
-    <h2>A treasure of Japan,<br><em>shared without exception.</em></h2>
-
-    <div class="story-image-wrap">
-      <img src="tofu-image/tofu.png" alt="Hand-crafted Japanese tofu in pure water" loading="lazy">
-      <div class="story-image-caption">— 豆腐の手仕事 · the craft of tofu —</div>
-    </div>
-
-    <p>
-      We want to bring the very best of Japan to the world. With that passion, we created our Tofu Burger — a modern expression of one of Japan's most quietly admired ingredients.
-    </p>
-    <p>
-      Tofu requires pure, high-quality water. Japan's climate and natural springs make it ideal for tofu-making, and our delicate techniques have been passed down through generations. Japanese tofu has become a product admired worldwide — a true reflection of artisan culture.
-    </p>
-
-    <div class="story-divider">· · ·</div>
-
-    <p class="center">
-      Beyond differences in nationality, religion, and diet — <em>everyone deserves the true taste of Japan.</em>
-    </p>
-
-    <p>
-      That is why we want every guest — vegan, halal, gluten-free — to enjoy this masterpiece. Bringing the true taste of Japan to the world. This is our story.
-    </p>
-  </div>
-</section>
-
 <!-- Menu -->
 <section class="menu">
   <div class="menu-inner">
@@ -1492,7 +1410,7 @@ img { display: block; max-width: 100%; height: auto; }
       <span class="section-label-jp">お品書き</span>
       <h2>One burger that <em>changes minds.</em></h2>
       <p>
-        Made from premium Japanese tofu — slow-pressed, lightly crisped, and built into a burger with the body, juice, and satisfaction you remember. No compromise. No "alternative" energy. Just a really good burger.
+        Made from premium Japanese tofu — shaped into a patty, lightly crisped, and built into a burger with the body, juice, and satisfaction you remember. No compromise. No "alternative" energy. Just a really good burger.
       </p>
     </div>
 
@@ -1508,7 +1426,7 @@ img { display: block; max-width: 100%; height: auto; }
         <div class="jp-name">豆腐バーガー</div>
 
         <p>
-          Premium Japanese tofu, slow-pressed in our Ginza kitchen until it holds its shape with a delicate crust outside and silky umami inside. Stacked with seasonal vegetables and our house-made sauce, in a gluten-free bun. Hearty enough for any appetite, gentle enough for any diet.
+          Premium Japanese tofu, shaped into a hearty patty in our Ginza kitchen — a delicate crust outside and silky umami inside. Stacked with seasonal vegetables and our house-made sauce, in a gluten-free bun. Hearty enough for any appetite, gentle enough for any diet.
         </p>
 
         <div class="diet-tags">
@@ -1537,13 +1455,13 @@ img { display: block; max-width: 100%; height: auto; }
       <div class="why-grid">
         <div class="why-item">
           <div class="icon-circle">一</div>
-          <h4>Pure Japanese Water</h4>
-          <p>Made from tofu crafted with Japan's natural springwater — the foundation of every great Japanese tofu.</p>
+          <h4>Japanese Tofu</h4>
+          <p>We use premium Japanese tofu — an ingredient quietly admired around the world for its purity and craftsmanship.</p>
         </div>
         <div class="why-item">
           <div class="icon-circle">二</div>
-          <h4>Generations of Technique</h4>
-          <p>Delicate methods passed down through Japanese tofu artisans, applied to a modern burger form.</p>
+          <h4>Crafted as a Burger</h4>
+          <p>Shaped into a hearty patty and lightly crisped in our Ginza kitchen — a real burger with body and satisfaction you remember.</p>
         </div>
         <div class="why-item">
           <div class="icon-circle">三</div>
@@ -1770,61 +1688,37 @@ img { display: block; max-width: 100%; height: auto; }
   © Tofu Burger Ginza · 豆腐バーガー 銀座 · Tokyo, Japan
 </footer>
 
-<!-- Live viewers dialog -->
-<div class="live-dialog" id="liveDialog" role="status" aria-live="polite">
-  <button class="live-dialog-close" id="liveDialogClose" aria-label="Close">×</button>
-  <div class="live-dialog-icon">
-    <span class="material-icons">visibility</span>
+<!-- Floating reserve button with live viewers -->
+<div class="floating-wrap">
+  <div class="floating-viewers" id="floatingViewers">
+    <span class="live-dot"></span>
+    <span><strong id="viewersCount">7</strong> people viewing now</span>
   </div>
-  <div class="live-dialog-content">
-    <div><strong id="liveDialogCount">7</strong> people are viewing this page</div>
-    <div class="live-dialog-sub">Reservation recommended — tables fill quickly</div>
-  </div>
+  <a href="tel:+818014384377" class="floating-reserve" aria-label="Check availability and reserve">
+    <span class="material-icons">event_seat</span>
+    <span class="label">Check<br>Availability</span>
+  </a>
 </div>
-
-<!-- Floating reserve button -->
-<a href="tel:+818014384377" class="floating-reserve" aria-label="Call to reserve a table">
-  <span class="material-icons">restaurant</span>
-  <span class="label">Reserve</span>
-</a>
 
 <script>
 (function(){
-  // Live viewers dialog
-  var dialog = document.getElementById('liveDialog');
-  var countEl = document.getElementById('liveDialogCount');
-  var closeBtn = document.getElementById('liveDialogClose');
-  var dismissed = false;
+  var countEl = document.getElementById('viewersCount');
+  var viewersBox = document.getElementById('floatingViewers');
 
   function randInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function showDialog() {
-    if (dismissed) return;
+  // Show viewers count after 15 seconds
+  setTimeout(function(){
     countEl.textContent = randInt(6, 9);
-    dialog.classList.add('show');
-  }
+    viewersBox.classList.add('show');
+  }, 15000);
 
-  function hideDialog() {
-    dialog.classList.remove('show');
-  }
-
-  closeBtn.addEventListener('click', function(){
-    dismissed = true;
-    hideDialog();
-  });
-
-  // First show after 15 seconds
-  setTimeout(showDialog, 15000);
-
-  // Update count every 18-25 seconds while shown
+  // Update count every 20 seconds
   setInterval(function(){
-    if (dismissed) return;
-    if (dialog.classList.contains('show')) {
+    if (viewersBox.classList.contains('show')) {
       countEl.textContent = randInt(6, 9);
-    } else {
-      showDialog();
     }
   }, 20000);
 })();
